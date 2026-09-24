@@ -107,16 +107,6 @@ php artisan serve
 A API estará acessível em [http://127.0.0.1:8000/api](http://127.0.0.1:8000/api).
 
 
-GET /api/solicitacoes-visitas — Lista todas as solicitações (com dados de visitante, colaborador e setor).
-
-POST /api/solicitacoes-visitas — Cria uma nova solicitação de visita.
-
-GET /api/solicitacoes-visitas/{id} — Exibe uma solicitação específica.
-
-PUT /api/solicitacoes-visitas/{id} — Atualiza a solicitação ou o seu status.
-
-DELETE /api/solicitacoes-visitas/{id} — Exclui uma solicitação.
-
 ⚙️ Instalação e Execução
 Siga os passos abaixo para rodar o projeto localmente:
 
