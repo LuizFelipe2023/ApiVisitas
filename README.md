@@ -69,29 +69,6 @@ Todos os endpoints abaixo exigem os headers `Authorization: Bearer <seu_token>` 
 Siga os passos abaixo para rodar o projeto localmente.
 
 ### 1. Clone o repositório
-
-```bash
-git clone <url-do-repositorio>
-cd nome-do-projeto
-```
-
-### 2. Instale as dependências do PHP
-
-```bash
-composer install
-```
-
-### 3. Configure o ambiente
-
-Duplique o arquivo `.env.example` para `.env` e configure a conexão com o banco de dados.
-
-```bash
-cp .env.example .env
-php artisan key:generate
-```
-
-### 4. Execute as migrations e os seeders
-
 O sistema possui seeders automatizados que criam setores dinâmicos, dezenas de colaboradores, visitantes e solicitações de visitas.
 
 ```bash
@@ -105,33 +82,3 @@ php artisan serve
 ```
 
 A API estará acessível em [http://127.0.0.1:8000/api](http://127.0.0.1:8000/api).
-
-
-⚙️ Instalação e Execução
-Siga os passos abaixo para rodar o projeto localmente:
-
-Clone o repositório:
-
-Bash
-git clone <url-do-repositorio>
-cd nome-do-projeto
-Instale as dependências do PHP:
-
-Bash
-composer install
-Configure o arquivo de ambiente:
-Duplique o arquivo .env.example para .env e configure a sua conexão com o banco de dados.
-
-Bash
-cp .env.example .env
-php artisan key:generate
-Execute as Migrations e os Seeders:
-O sistema possui seeders automatizados que criam setores dinâmicos, dezenas de colaboradores, visitantes e solicitações de visitas.
-
-Bash
-php artisan migrate:fresh --seed
-Inicie o servidor de desenvolvimento:
-
-Bash
-php artisan serve
-A API estará acessível em [http://127.0.0.1:8000/api](http://127.0.0.1:8000/api)
