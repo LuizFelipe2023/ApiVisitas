@@ -7,6 +7,7 @@ API RESTful desenvolvida em Laravel para o gerenciamento corporativo de controle
 - PHP 8.x
 - Laravel Framework
 - Laravel Sanctum (autenticação de API baseada em tokens)
+- Scramble (geração automática da documentação OpenAPI)
 - Eloquent ORM (modelagem de dados e relacionamentos)
 - Faker / Factories & Seeders (geração de dados em massa para testes)
 
@@ -63,6 +64,15 @@ Todos os endpoints abaixo exigem os headers `Authorization: Bearer <seu_token>` 
 - `GET /api/solicitacoes-visitas/{id}` — Exibe uma solicitação específica.
 - `PUT /api/solicitacoes-visitas/{id}` — Atualiza a solicitação ou o seu status.
 - `DELETE /api/solicitacoes-visitas/{id}` — Exclui uma solicitação.
+
+## 📚 Documentação interativa da API
+
+A documentação é gerada automaticamente pelo [Scramble](https://scramble.dedoc.co/) a partir das rotas da API e pode ser acessada com a aplicação em execução:
+
+- Interface interativa: [http://127.0.0.1:8000/docs/api](http://127.0.0.1:8000/docs/api)
+- Especificação OpenAPI em JSON: [http://127.0.0.1:8000/docs/api.json](http://127.0.0.1:8000/docs/api.json)
+
+Na interface, é possível consultar os endpoints, parâmetros e respostas e testar as requisições. Para testar rotas protegidas, informe um token Bearer válido do Sanctum. Por padrão, o Scramble libera a documentação no ambiente `local`; em outros ambientes, o acesso depende da autorização `viewApiDocs`.
 
 ## ⚙️ Instalação e execução
 
