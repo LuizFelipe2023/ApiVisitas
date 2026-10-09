@@ -1,94 +1,86 @@
-# 🏢 API de Gerenciamento de Visitas
+# API de Gerenciamento de Visitas
 
-API RESTful desenvolvida em Laravel para o gerenciamento corporativo de controle de acesso, envolvendo setores, colaboradores, visitantes e solicitações de visitas, com autenticação via Laravel Sanctum.
+API RESTful em Laravel para controle de acesso corporativo: setores, colaboradores, visitantes e solicitações de visita, com autenticação via Laravel Sanctum e ambiente dockerizado.
 
-## 🚀 Tecnologias utilizadas
+## Tecnologias
 
-- PHP 8.x
-- Laravel Framework
-- Laravel Sanctum (autenticação de API baseada em tokens)
-- Scramble (geração automática da documentação OpenAPI)
-- Eloquent ORM (modelagem de dados e relacionamentos)
-- Faker / Factories & Seeders (geração de dados em massa para testes)
+- PHP 8.x e Laravel
+- Laravel Sanctum (autenticação por token)
+- Scramble (documentação OpenAPI automática)
+- Eloquent ORM, Factories e Seeders
+- Docker e Docker Compose
 
-## 📊 Estrutura do banco de dados e entidades
+## Entidades
 
-O sistema é composto pelas seguintes entidades principais:
+- **Users:** administradores do sistema (autenticação)
+- **Setores:** departamentos da empresa (ex.: TI, RH, Financeiro)
+- **Colaboradores:** funcionários que recebem visitas, vinculados a um setor
+- **Visitantes:** pessoas externas, com CPF único
+- **Solicitações de visitas:** relacionam visitante e colaborador, com data/hora, motivo e status (pendente, aprovada ou recusada)
 
-- **Users:** usuários administradores do sistema (autenticação).
-- **Setores:** departamentos da empresa (ex.: TI, RH e Financeiro). Relacionamento um-para-muitos com colaboradores.
-- **Colaboradores:** funcionários que recebem as visitas, vinculados a um setor específico.
-- **Visitantes:** pessoas externas cadastradas no sistema, com CPF único.
-- **Solicitações de visitas:** registro do agendamento ou solicitação que relaciona um visitante e um colaborador, contendo data/hora, motivo e status (pendente, aprovada ou recusada).
+## Endpoints
 
-## 🔐 Endpoints da API
+**Autenticação**
 
-### Autenticação (pública e protegida)
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | `/api/register` | Registra usuário e retorna o token |
+| POST | `/api/login` | Autentica e retorna o token |
+| POST | `/api/logout` | Revoga o token atual (autenticado) |
 
-- `POST /api/register` — Registra um novo usuário e retorna o token de acesso.
-- `POST /api/login` — Realiza o login e retorna o token de acesso.
-- `POST /api/logout` — Revoga o token atual (requer autenticação).
+**Recursos protegidos** (headers `Authorization: Bearer <token>` e `Accept: application/json`)
 
-### Recursos protegidos (Bearer Token)
+Cada recurso oferece CRUD completo: `GET` (lista), `POST`, `GET /{id}`, `PUT /{id}` e `DELETE /{id}`.
 
-Todos os endpoints abaixo exigem os headers `Authorization: Bearer <seu_token>` e `Accept: application/json`.
+| Recurso | Rota base | Observação |
+|---------|-----------|------------|
+| Setores | `/api/setores` | |
+| Colaboradores | `/api/colaboradores` | Lista inclui dados do setor |
+| Visitantes | `/api/visitantes` | Lista ordenada por nome |
+| Solicitações de visitas | `/api/solicitacoes-visitas` | Lista inclui visitante, colaborador e setor; `PUT` também atualiza o status |
 
-#### Setores (`/api/setores`)
+## Documentação interativa
 
-- `GET /api/setores` — Lista todos os setores.
-- `POST /api/setores` — Cadastra um novo setor.
-- `GET /api/setores/{id}` — Exibe um setor específico.
-- `PUT /api/setores/{id}` — Atualiza um setor.
-- `DELETE /api/setores/{id}` — Remove um setor.
+Gerada automaticamente pelo [Scramble](https://scramble.dedoc.co/), com a aplicação em execução:
 
-#### Colaboradores (`/api/colaboradores`)
+- Interface: http://127.0.0.1:8000/docs/api
+- OpenAPI (JSON): http://127.0.0.1:8000/docs/api.json
 
-- `GET /api/colaboradores` — Lista todos os colaboradores (com dados do setor).
-- `POST /api/colaboradores` — Cadastra um colaborador.
-- `GET /api/colaboradores/{id}` — Exibe detalhes de um colaborador.
-- `PUT /api/colaboradores/{id}` — Atualiza dados do colaborador.
-- `DELETE /api/colaboradores/{id}` — Remove um colaborador.
+Para testar rotas protegidas, informe um token Bearer do Sanctum. Fora do ambiente `local`, o acesso depende da autorização `viewApiDocs`.
 
-#### Visitantes (`/api/visitantes`)
+## Instalação
 
-- `GET /api/visitantes` — Lista todos os visitantes ordenados por nome.
-- `POST /api/visitantes` — Cadastra um novo visitante.
-- `GET /api/visitantes/{id}` — Exibe detalhes do visitante.
-- `PUT /api/visitantes/{id}` — Atualiza dados do visitante.
-- `DELETE /api/visitantes/{id}` — Remove um visitante.
-
-#### Solicitações de visitas (`/api/solicitacoes-visitas`)
-
-- `GET /api/solicitacoes-visitas` — Lista todas as solicitações (com dados de visitante, colaborador e setor).
-- `POST /api/solicitacoes-visitas` — Cria uma nova solicitação de visita.
-- `GET /api/solicitacoes-visitas/{id}` — Exibe uma solicitação específica.
-- `PUT /api/solicitacoes-visitas/{id}` — Atualiza a solicitação ou o seu status.
-- `DELETE /api/solicitacoes-visitas/{id}` — Exclui uma solicitação.
-
-## 📚 Documentação interativa da API
-
-A documentação é gerada automaticamente pelo [Scramble](https://scramble.dedoc.co/) a partir das rotas da API e pode ser acessada com a aplicação em execução:
-
-- Interface interativa: [http://127.0.0.1:8000/docs/api](http://127.0.0.1:8000/docs/api)
-- Especificação OpenAPI em JSON: [http://127.0.0.1:8000/docs/api.json](http://127.0.0.1:8000/docs/api.json)
-
-Na interface, é possível consultar os endpoints, parâmetros e respostas e testar as requisições. Para testar rotas protegidas, informe um token Bearer válido do Sanctum. Por padrão, o Scramble libera a documentação no ambiente `local`; em outros ambientes, o acesso depende da autorização `viewApiDocs`.
-
-## ⚙️ Instalação e execução
-
-Siga os passos abaixo para rodar o projeto localmente.
-
-### 1. Clone o repositório
-O sistema possui seeders automatizados que criam setores dinâmicos, dezenas de colaboradores, visitantes e solicitações de visitas.
+### Com Docker (recomendado)
 
 ```bash
-php artisan migrate:fresh --seed
+git clone <url-do-repositorio>
+cd <nome-do-projeto>
+
+cp .env.example .env
+docker compose up -d --build
+
+docker compose exec app composer install
+docker compose exec app php artisan key:generate
+docker compose exec app php artisan migrate:fresh --seed
 ```
 
-### 5. Inicie o servidor de desenvolvimento
+A API estará em http://127.0.0.1:8000/api.
+
+### Sem Docker
+
+Requisitos: PHP 8.x, Composer e MySQL.
 
 ```bash
+git clone <url-do-repositorio>
+cd <nome-do-projeto>
+
+composer install
+cp .env.example .env
+# configure o banco no .env
+
+php artisan key:generate
+php artisan migrate:fresh --seed
 php artisan serve
 ```
 
-A API estará acessível em [http://127.0.0.1:8000/api](http://127.0.0.1:8000/api).
+> Os seeders criam setores, dezenas de colaboradores, visitantes e solicitações de teste. `migrate:fresh` apaga todas as tabelas, então use só em desenvolvimento.
